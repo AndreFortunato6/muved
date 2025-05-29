@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projeto de Prevenção à Dengue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f9f0;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: linear-gradient(45deg, #28a745, #218838);
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+    nav {
+      background: #218838;
+      padding: 15px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #d4f5d4;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      color: #28a745;
+      margin-top: 40px;
+      animation: slideIn 1s ease;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeInUp 1s ease;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    footer {
+      background: #28a745;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, textarea {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #218838;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    @keyframes slideIn {
+      from {transform: translateX(-100px); opacity: 0;}
+      to {transform: translateX(0); opacity: 1;}
+    }
+    @keyframes fadeInUp {
+      from {transform: translateY(30px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Projeto de Prevenção à Dengue</h1>
+  <p>Informação, Tecnologia e Ação Contra o Mosquito Aedes aegypti</p>
+</header>
+
+<nav>
+  <a href="#projeto">Sobre</a>
+  <a href="#dicas">Dicas</a>
+  <a href="#artigos">Artigos</a>
+  <a href="#contato">Contato</a>
+  <a href="#mapa">Mapa</a>
+  <a href="#projeto3d">Projeto 3D</a>
+</nav>
+
+<section id="projeto">
+  <h2>Sobre o Projeto</h2>
+  <div class="card">
+    <p>Nosso projeto une Engenharia da Computação e responsabilidade social no combate ao mosquito Aedes aegypti, transmissor da dengue, zika e chikungunya.</p>
+    <p>Desenvolvemos um dispositivo inteligente, portátil e sustentável, que utiliza luz UV, ácido lático e energia solar para atrair e eliminar mosquitos, além de monitorar áreas de risco.</p>
+    <img src="Aedes_aegypti.jpg" alt="Mosquito">
+  </div>
+</section>
+
+<section id="dicas">
+  <h2>Dicas de Prevenção</h2>
+  <div class="card">
+    <ul>
+      <li>✅ Tampe caixas d'água, tonéis e barris.</li>
+      <li>✅ Evite acumular água em pneus e garrafas vazias.</li>
+      <li>✅ Coloque areia nos pratos de plantas.</li>
+      <li>✅ Limpe calhas e ralos regularmente.</li>
+      <li>✅ Mantenha lixeiras tampadas.</li>
+    </ul>
+    <img src="agua.jpg" alt="Água parada">
+  </div>
+</section>
+
+<section id="artigos">
+  <h2>Artigos</h2>
+  
+  <div class="card">
+    <h3>A Importância da Prevenção</h3>
+    <p>A prevenção é a melhor arma contra a dengue. O combate começa em casa, com atitudes simples e diárias que evitam a proliferação do mosquito.</p>
+    <img src="images (5).jpg" alt="Proteção">
+  </div>
+
+  <div class="card">
+    <h3>Como a Tecnologia Ajuda</h3>
+    <p>Dispositivos como o nosso, que combinam sensores e automação, ajudam a monitorar e reduzir a população de mosquitos, complementando as ações humanas de prevenção.</p>
+    <img src="images (3).jpg" alt="Tecnologia">
+  </div>
+
+  <div class="card">
+    <h3>O Papel da Comunidade</h3>
+    <p>Engajar a comunidade é essencial. A disseminação de informações corretas e a participação ativa são fundamentais para controlar o avanço da dengue.</p>
+    <img src="images (4).jpg" alt="Comunidade">
+  </div>
+</section>
+
+<section id="contato">
+  <h2>Fale Conosco</h2>
+  <div class="card">
+    <form>
+      <label>Nome:</label>
+      <input type="text" placeholder="Seu nome" required>
+      <label>Email:</label>
+      <input type="email" placeholder="muved@gmail.com" required>
+      <label>Mensagem:</label>
+      <textarea rows="5" placeholder="Escreva sua mensagem..." required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</section>
+
+<section id="mapa">
+  <h2>Mapa Interativo</h2>
+  <div class="card">
+    <p>Confira áreas com maior risco de proliferação do mosquito na sua região:</p>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.154867624856!2d-46.65598108451864!3d-23.597688584663206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d23e36b94d%3A0xc3ef3cc7eb8e8483!2sParque%20Ibirapuera!5e0!3m2!1spt-BR!2sbr!4v1625232226894!5m2!1spt-BR!2sbr" 
+      width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+<section id="projeto3d">
+  <h2>Projeto 3D e Dados</h2>
+  <div class="card">
+    <h3>Visualização do Dispositivo em 3D</h3>
+    <p>Veja abaixo uma visualização interativa do nosso dispositivo de combate ao mosquito Aedes aegypti.</p>
+
+    <!-- Modelo 3D de exemplo via Sketchfab -->
+    <iframe title="Modelo 3D" frameborder="0" allowfullscreen 
+      mozallowfullscreen="true" webkitallowfullscreen="true"
+      allow="autoplay; fullscreen; xr-spatial-tracking"
+      xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+      width="100%" height="400"
+      src="https://skfb.ly/pxxn7">
+    </iframe>
+  </div>
+
+  <div class="card">
+    <h3>Dados do Projeto</h3>
+    <ul>
+      <li>📊 <strong>Eficiência:</strong> captura média de 80% dos mosquitos em raio de 5 metros.</li>
+      <li>⚡ <strong>Energia:</strong> consumo de apenas 5W, alimentado por placa solar.</li>
+      <li>🌡️ <strong>Sensores:</strong> detecção de temperatura, umidade e presença de mosquitos.</li>
+      <li>📈 <strong>Monitoramento:</strong> dados transmitidos em tempo real via rede LoRa.</li>
+      <li>💡 <strong>Iluminação UV:</strong> LED de 395 nm para atrair mosquitos com segurança.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Projeto de Prevenção à Dengue. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>
