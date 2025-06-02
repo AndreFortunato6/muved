@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Muvi Bros</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-size: large;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+    canvas {
+      background: linear-gradient(#87ceeb, #ffffff);
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<script>
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const marioImg = new Image();
+  marioImg.src = 'image-removebg-preview (2).png'; 
+
+  const enemyImg = new Image();
+  enemyImg.src = 'image-removebg-preview (1).png'; 
+
+  const player = {
+    x: 100,
+    y: canvas.height - 150,
+    width: 70,
+    height: 70,
+    dy: 0,
+    dx: 0,
+    gravity: 0.8,
+    jumpForce: -15,
+    onGround: false,
+    alive: true
+  };
+
+  const ground = {
+    y: canvas.height - 100,
+    height: 100,
+    color: '#228B22'
+  };
+
+  const clouds = Array.from({ length: 5 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * 200,
+    size: 60 + Math.random() * 40,
+    speed: 0.2 + Math.random() * 0.5
+  }));
+
+  const enemies = [];
+  const keys = { left: false, right: false };
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = true;
+    if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = true;
+    if ((['ArrowUp', 'KeyW', 'Space'].includes(e.code)) && player.onGround && player.alive) {
+      player.dy = player.jumpForce;
+      player.onGround = false;
+    }
+  });
+
+  document.addEventListener('keyup', e => {
+    if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = false;
+    if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = false;
+  });
+
+  function drawClouds() {
+    ctx.fillStyle = '#ffffff';
+    clouds.forEach(cloud => {
+      ctx.beginPath();
+      ctx.arc(cloud.x, cloud.y, cloud.size * 0.5, 0, Math.PI * 2);
+      ctx.arc(cloud.x + cloud.size * 0.4, cloud.y + 10, cloud.size * 0.4, 0, Math.PI * 2);
+      ctx.arc(cloud.x - cloud.size * 0.4, cloud.y + 10, cloud.size * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      cloud.x -= cloud.speed;
+      if (cloud.x < -100) {
+        cloud.x = canvas.width + 100;
+        cloud.y = Math.random() * 200;
+      }
+    });
+  }
+
+  function drawGround() {
+    ctx.fillStyle = ground.color;
+    ctx.fillRect(0, ground.y, canvas.width, ground.height);
+  }
+
+  function drawPlayer() {
+    ctx.drawImage(marioImg, player.x, player.y, player.width, player.height);
+  }
+
+  function drawEnemies() {
+    enemies.forEach(enemy => {
+      ctx.drawImage(enemyImg, enemy.x, enemy.y, enemy.width, enemy.height);
+    });
+  }
+
+  function updateEnemies() {
+    for (let i = enemies.length - 1; i >= 0; i--) {
+      enemies[i].x -= 5;
+      if (enemies[i].x + enemies[i].width < 0) enemies.splice(i, 1);
+      if (isColliding(player, enemies[i])) {
+        player.alive = false;
+        setTimeout(() => location.reload(), 1000);
+      }
+    }
+  }
+
+  function spawnEnemy() {
+    enemies.push({
+      x: canvas.width,
+      y: canvas.height - 170,
+      width: 50,
+      height: 50
+    });
+  }
+
+  function updatePlayer() {
+    if (!player.alive) return;
+
+    player.dx = keys.left ? -5 : keys.right ? 5 : 0;
+    player.dy += player.gravity;
+    player.x += player.dx;
+    player.y += player.dy;
+
+    
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+    
+    if (player.y + player.height >= ground.y) {
+      player.y = ground.y - player.height;
+      player.dy = 0;
+      player.onGround = true;
+    }
+  }
+
+  function isColliding(a, b) {
+    return (
+      a.x < b.x + b.width &&
+      a.x + a.width > b.x &&
+      a.y < b.y + b.height &&
+      a.y + a.height > b.y
+    );
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawClouds();
+    drawGround();
+    drawPlayer();
+    drawEnemies();
+    updatePlayer();
+    updateEnemies();
+
+    if (player.alive) {
+      requestAnimationFrame(gameLoop);
+    } else {
+      ctx.fillStyle = 'black';
+      ctx.font = '40px Trebuchet MS';
+      ctx.fillText('Você perdeu! Reiniciando...', 100, 100);
+    }
+  }
+
+  setInterval(spawnEnemy, 1500);
+  gameLoop();
+</script>
+</body>
+</html>
+
