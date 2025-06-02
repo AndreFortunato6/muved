@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Super Muvi Bros</title>
   <style>
-    body {
+    body { 
       margin: 0;
       overflow: hidden;
       font-size: large;
@@ -32,6 +32,10 @@
 
   const enemyImg = new Image();
   enemyImg.src = 'image-removebg-preview (1).png'; 
+
+  const lifeImg = new Image();
+  lifeImg.src = 'image-removebg-preview (2).png'; 
+
 
   const player = {
     x: 100,
@@ -61,6 +65,8 @@
 
   const enemies = [];
   const keys = { left: false, right: false };
+  let score = 0;
+  let lives = 3;
 
   document.addEventListener('keydown', e => {
     if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = true;
@@ -111,10 +117,17 @@
   function updateEnemies() {
     for (let i = enemies.length - 1; i >= 0; i--) {
       enemies[i].x -= 5;
-      if (enemies[i].x + enemies[i].width < 0) enemies.splice(i, 1);
-      if (isColliding(player, enemies[i])) {
-        player.alive = false;
-        setTimeout(() => location.reload(), 1000);
+
+      if (enemies[i].x + enemies[i].width < 0) {
+        enemies.splice(i, 1);
+        score += 10;
+      } else if (isColliding(player, enemies[i])) {
+        enemies.splice(i, 1);
+        lives--;
+        if (lives <= 0) {
+          player.alive = false;
+          setTimeout(() => location.reload(), 1500);
+        }
       }
     }
   }
@@ -136,11 +149,9 @@
     player.x += player.dx;
     player.y += player.dy;
 
-    
     if (player.x < 0) player.x = 0;
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
 
-    
     if (player.y + player.height >= ground.y) {
       player.y = ground.y - player.height;
       player.dy = 0;
@@ -157,6 +168,22 @@
     );
   }
 
+function drawHUD() {
+  // Pontuação (à esquerda)
+  ctx.fillStyle = 'black';
+  ctx.font = '24px Trebuchet MS';
+  ctx.fillText(`Pontuação: ${score}`, 20, 40);
+
+  // Vidas (à direita)
+  const lifeSize = 50;
+  const spacing = 10;
+  const totalWidth = lives * (lifeSize + spacing);
+  const startX = canvas.width - totalWidth - 20;
+
+  for (let i = 0; i < lives; i++) {
+    ctx.drawImage(lifeImg, startX + i * (lifeSize + spacing), 18, lifeSize, lifeSize);
+  }
+}
   function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawClouds();
@@ -165,13 +192,14 @@
     drawEnemies();
     updatePlayer();
     updateEnemies();
+    drawHUD();
 
     if (player.alive) {
       requestAnimationFrame(gameLoop);
     } else {
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'red';
       ctx.font = '40px Trebuchet MS';
-      ctx.fillText('Você perdeu! Reiniciando...', 100, 100);
+      ctx.fillText('Oh não, pegaram o Muvi! Reiniciando...', 100, 120);
     }
   }
 
@@ -180,4 +208,3 @@
 </script>
 </body>
 </html>
-
