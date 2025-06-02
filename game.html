@@ -14,11 +14,52 @@
       background: linear-gradient(#87ceeb, #ffffff);
       display: block;
     }
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      z-index: 1000;
+    }
+    #popup h2 {
+      margin-top: 0;
+    }
+    #popup a, #popup button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #popup a {
+      background: #25D366;
+      color: white;
+    }
+    #popup button {
+      background: #007BFF;
+      color: white;
+    }
   </style>
 </head>
 <body>
 
 <canvas id="game"></canvas>
+
+<div id="popup">
+  <h2>Muvi foi pego! 😢</h2>
+  <p id="scoreText">Sua pontuação: 0</p>
+  <a id="shareBtn" href="#" target="_blank">Compartilhar no WhatsApp</a><br>
+  <button onclick="location.reload()">Jogar Novamente</button>
+</div>
 
 <script>
   const canvas = document.getElementById('game');
@@ -35,7 +76,6 @@
 
   const lifeImg = new Image();
   lifeImg.src = 'image-removebg-preview (2).png'; 
-
 
   const player = {
     x: 100,
@@ -126,7 +166,7 @@
         lives--;
         if (lives <= 0) {
           player.alive = false;
-          setTimeout(() => location.reload(), 1500);
+          showPopup();
         }
       }
     }
@@ -168,22 +208,35 @@
     );
   }
 
-function drawHUD() {
-  // Pontuação (à esquerda)
-  ctx.fillStyle = 'black';
-  ctx.font = '24px Trebuchet MS';
-  ctx.fillText(`Pontuação: ${score}`, 20, 40);
+  function drawHUD() {
+    ctx.fillStyle = 'black';
+    ctx.font = '24px Trebuchet MS';
+    ctx.fillText(`Pontuação: ${score}`, 20, 40);
 
-  // Vidas (à direita)
-  const lifeSize = 50;
-  const spacing = 10;
-  const totalWidth = lives * (lifeSize + spacing);
-  const startX = canvas.width - totalWidth - 20;
+    const lifeSize = 50;
+    const spacing = 10;
+    const totalWidth = lives * (lifeSize + spacing);
+    const startX = canvas.width - totalWidth - 20;
 
-  for (let i = 0; i < lives; i++) {
-    ctx.drawImage(lifeImg, startX + i * (lifeSize + spacing), 18, lifeSize, lifeSize);
+    for (let i = 0; i < lives; i++) {
+      ctx.drawImage(lifeImg, startX + i * (lifeSize + spacing), 18, lifeSize, lifeSize);
+    }
   }
-}
+
+  function showPopup() {
+    const popup = document.getElementById('popup');
+    const scoreText = document.getElementById('scoreText');
+    const shareBtn = document.getElementById('shareBtn');
+
+    scoreText.textContent = `Sua pontuação: ${score}`;
+
+    const shareMessage = `Acabei de jogar Super Muvi Bros e fiz ${score} pontos! 🕹️ Tente bater meu recorde!`;
+    const shareURL = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
+
+    shareBtn.href = shareURL;
+    popup.style.display = 'block';
+  }
+
   function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawClouds();
@@ -196,10 +249,6 @@ function drawHUD() {
 
     if (player.alive) {
       requestAnimationFrame(gameLoop);
-    } else {
-      ctx.fillStyle = 'red';
-      ctx.font = '40px Trebuchet MS';
-      ctx.fillText('Oh não, pegaram o Muvi! Reiniciando...', 100, 120);
     }
   }
 
